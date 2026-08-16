@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11971: Who Has Access to Southold's Flock Surveillance Cameras</title>
+<meta name="description" content="59 outside agencies can search the record of your movements in Southold, NY. The Town's own device count puts 4,278 cameras across 279 networks one search away, and its raw logs show 906 searches in six months. Every fact on this page comes from the Town's own records, released under FOIL.">
+<style>
+:root {
+  color-scheme: light;
+  --page:        #f9f9f7;
+  --surface:     #fcfcfb;
+  --ink:         #0b0b0b;
+  --ink-2:       #52514e;
+  --muted:       #898781;
+  --hairline:    #e1e0d9;
+  --baseline:    #c3c2b7;
+  --border:      rgba(11,11,11,0.10);
+  --series-1:    #2a78d6;
+  --series-2:    #eb6834;
+  --critical:    #d03b3b;
+  --accent-wash: rgba(42,120,214,0.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page:        #0d0d0d;
+    --surface:     #1a1a19;
+    --ink:         #ffffff;
+    --ink-2:       #c3c2b7;
+    --muted:       #898781;
+    --hairline:    #2c2c2a;
+    --baseline:    #383835;
+    --border:      rgba(255,255,255,0.10);
+    --series-1:    #3987e5;
+    --series-2:    #d95926;
+    --critical:    #d03b3b;
+    --accent-wash: rgba(57,135,229,0.12);
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+a { color: var(--series-1); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* ---------- layout ---------- */
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+.wrap-wide { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+section { padding: 56px 0; border-top: 1px solid var(--hairline); }
+section:first-of-type { border-top: none; }
+
+/* ---------- nav ---------- */
+nav {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--page);
+  border-bottom: 1px solid var(--hairline);
+  font-size: 14px;
+}
+nav .wrap-wide { display: flex; align-items: baseline; gap: 18px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+nav .brand { font-weight: 700; font-size: 16px; letter-spacing: 0.02em; margin-right: 6px; color: var(--ink); text-decoration: none; }
+nav a:not(.brand) { color: var(--ink-2); text-decoration: none; }
+nav a:not(.brand):hover { color: var(--ink); }
+
+/* ---------- type ---------- */
+.kicker {
+  font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 10px;
+}
+h1 { font-size: clamp(34px, 6vw, 54px); line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 18px; }
+h2 { font-size: clamp(26px, 4vw, 34px); line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 6px; }
+h3 { font-size: 20px; margin: 34px 0 8px; }
+.lede { font-size: clamp(18px, 2.6vw, 21px); color: var(--ink-2); max-width: 44em; }
+p { max-width: 44em; }
+.small { font-size: 14px; color: var(--muted); }
+.src {
+  font-size: 13px; color: var(--muted); max-width: 44em;
+  padding-left: 12px; border-left: 2px solid var(--baseline); margin: 10px 0 0;
+}
+blockquote {
+  margin: 26px 0; padding: 4px 0 4px 20px;
+  border-left: 3px solid var(--series-1);
+  font-size: 20px; line-height: 1.5; max-width: 40em;
+}
+blockquote .small { display: block; margin-top: 8px; }
+mark { background: var(--accent-wash); color: inherit; padding: 0 3px; }
+
+/* ---------- hero ---------- */
+header.hero { padding: 72px 0 56px; }
+header.hero .zip { font-size: 14px; font-weight: 600; letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; }
+
+/* ---------- stat tiles ---------- */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 34px 0 6px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 18px 18px 14px;
+}
+.stat .label { font-size: 13.5px; color: var(--ink-2); line-height: 1.35; }
+.stat .value { font-size: 38px; font-weight: 600; line-height: 1.1; margin-bottom: 6px; }
+
+/* ---------- split bar (proportion) ---------- */
+.splitbar { margin: 26px 0 8px; max-width: 720px; }
+.splitbar .bar { display: flex; height: 24px; border-radius: 4px; overflow: hidden; background: var(--surface); }
+.splitbar .seg { height: 100%; }
+.splitbar .seg + .seg { margin-left: 2px; }
+.splitbar .seg.s1 { background: var(--series-1); border-radius: 4px 0 0 4px; }
+.splitbar .seg.s2 { background: var(--series-2); border-radius: 0 4px 4px 0; }
+.legend { display: flex; gap: 20px; margin-top: 10px; font-size: 14px; color: var(--ink-2); flex-wrap: wrap; }
+.legend .key { display: inline-flex; align-items: center; gap: 7px; }
+.legend .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+/* ---------- count tables ---------- */
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-top: 22px; }
+table.cats { border-collapse: collapse; width: 100%; font-size: 15px; }
+table.cats caption { text-align: left; font-weight: 600; font-size: 15px; padding-bottom: 8px; color: var(--ink); }
+table.cats td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--hairline); }
+table.cats td.n { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; width: 3.5em; }
+table.cats tr.flag td { color: var(--critical); font-weight: 600; }
+
+/* ---------- roster table ---------- */
+.roster-tools { margin: 26px 0 10px; }
+.roster-tools input {
+  width: 100%; max-width: 420px; font-size: 16px; padding: 9px 12px;
+  border: 1px solid var(--baseline); border-radius: 6px; background: var(--surface); color: var(--ink);
+}
+.tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+table.roster { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+table.roster th {
+  text-align: left; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--baseline);
+  position: sticky; top: 0; background: var(--surface);
+}
+table.roster td { padding: 7px 12px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+table.roster td.n { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); width: 2.5em; }
+table.roster tr.oos td:nth-child(2) { font-weight: 600; }
+table.roster .tier-head td {
+  font-weight: 700; font-size: 15px; padding-top: 22px; border-bottom: 2px solid var(--baseline); color: var(--ink);
+}
+.count-note { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+/* ---------- timeline ---------- */
+.timeline { list-style: none; margin: 26px 0 0; padding: 0; max-width: 46em; }
+.timeline li { display: grid; grid-template-columns: 118px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--hairline); }
+.timeline .d { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14.5px; color: var(--ink-2); white-space: nowrap; }
+.timeline .miss { color: var(--critical); font-weight: 600; }
+
+/* ---------- said vs shown ---------- */
+.vs { display: grid; gap: 14px; margin-top: 26px; }
+.vs .pair { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; }
+.vs .said { color: var(--ink-2); font-style: italic; margin: 0 0 8px; }
+.vs .shown { margin: 0; }
+.vs .shown::before { content: "The records show: "; font-weight: 700; font-style: normal; }
+.vs .said::before { content: "What was said: "; font-weight: 700; font-style: normal; color: var(--ink); }
+
+/* ---------- action list ---------- */
+.actions { padding-left: 1.2em; max-width: 44em; }
+.actions li { margin-bottom: 12px; }
+
+footer { border-top: 1px solid var(--hairline); padding: 40px 0 64px; font-size: 14px; color: var(--muted); }
+footer p { max-width: 52em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap-wide">
+    <a class="brand" href="#top">11971</a>
+    <a href="#access">Who has access</a>
+    <a href="#cameras">The cameras</a>
+    <a href="#money">The money</a>
+    <a href="#liability">Accountability</a>
+    <a href="#harms">Harms</a>
+    <a href="#record">Said vs. shown</a>
+    <a href="#county">The county grid</a>
+    <a href="#timeline">FOIL</a>
+    <a href="#position">Position</a>
+    <a href="#act">What you can do</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="zip" style="margin-bottom: 6px;">Southold, New York · 11971</div>
+    <div class="zip" style="color: var(--ink); margin-bottom: 6px;">Chilling Effects</div>
+    <div style="font-size: 13.5px; color: var(--muted); margin-bottom: 20px;">Updated Aug. 12, 2026</div>
+    <h1>Flock records every driver in Southold. 59 outside agencies can search the record. No one voted for any of it.</h1>
+    <p class="lede">
+      Call them cameras and you understate them. The devices on our roads are endpoints of a
+      technology being weaponized against the people it watches. They photograph every vehicle,
+      log every trip, and feed a national database searched by 59 outside agencies nobody in this
+      town chose. The Supreme Court held in <em>Carpenter v. United States</em> that the government
+      may not track the whole of a person's movements without a warrant. This system tracks the
+      whole of everyone's movements, every day, and no warrant is ever asked.
+    </p>
+    <p class="lede">
+      Observation becomes supervision, and supervision becomes control, and the control sits in
+      everybody's hands but yours. When every trip is logged, people weigh who might see the record:
+      the clinic, the meeting, the protest, the church. That is the chilling effect this site is
+      named for. Southold cannot rule out that ICE agents reach this data. On the national
+      record, the likelier truth is that access already flows.
+    </p>
+    <p class="lede">
+      <strong>The North Fork runs on tourism, and these cameras put a price on visiting.</strong> Every
+      vineyard, brewery, farm stand, bar, and restaurant out here depends on people choosing to come.
+      Now a visit can raise your car insurance: this is the foundational data of surveillance pricing,
+      and the record of where you drove, joined to your card records, is a simple purchase for the
+      companies that price your car, home, and health coverage. The visit follows you home in your
+      premiums, for years. A region that bills its visitors through their insurance is a region people
+      stop visiting. The cameras are a threat to the livelihood of everyone who works out here. Everything about you is available to
+      them. Nothing about them is available to you. Everything goes up: your rates, and the price
+      of your rights. And these endpoints carry video and audio sensors: coupled with AI, that data
+      can be made to infer health itself, for sale to insurers who already buy inferred data about
+      their customers.
+    </p>
+    <p class="lede">
+      This implementation has already cost the town its character. Greenport's reaction, a
+      resident petition condemning the use of this network for immigration enforcement, says the
+      community knows it.
+    </p>
+    <p class="lede"><strong>It is called Flock for a reason. We are sheep only if we let this happen.</strong></p>
+    <p class="lede"><strong>Every number on this page comes from documents the Town of Southold produced
+      under New York's Freedom of Information Law.</strong>
+      <a href="#harms">Read the harms</a> · <a href="#position">Our position</a> · <a href="#act">Take action</a>.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="value">59</div><div class="label">Outside agencies that can search Southold's cameras directly</div></div>
+      <div class="stat"><div class="value">4,278</div><div class="label">Cameras across 279 networks that Southold's system can search, per the Town's Aug. 3 device count</div></div>
+      <div class="stat"><div class="value">906</div><div class="label">Flock searches by Southold police in the first six months of 2026, per the Town's raw audit logs</div></div>
+      <div class="stat"><div class="value">0</div><div class="label">Opt-in or opt-out decisions the Town made about any of this sharing, in its own words</div></div>
+    </div>
+    <p class="src">Sources: Town of Southold FOIL productions of June 5, 2026 (Exhibits E1 "Agencies with access to Southold Network"
+      and E2 "Networks shared with Southold", snapshot May 18, 2026) and Aug. 3, 2026 (raw per-search audit logs, Jan.–June 2026;
+      device count). Agency names throughout this page are reproduced verbatim from the Town's spreadsheets.</p>
+  </div>
+</header>
+
+<section id="access">
+  <div class="wrap">
+    <p class="kicker">The central fact</p>
+    <h2>Who has access</h2>
+    <p class="lede">The record of your movements leaves Southold, and Southold does not decide who sees it.</p>
+
+    <p>Access runs in two directions. <strong>Inbound:</strong> 59 outside agencies can pull data from
+    Southold's cameras. <strong>Outbound:</strong> Southold's own logins can search 139 other networks
+    across eight states, plus a multi-state police intelligence network, without a warrant, an
+    agreement, or anyone's sign-off. The Town confirmed in writing that there were
+    <mark>"no opt-in or opt-out decisions"</mark> governing any of it. Southold did not choose these
+    connections one by one. They came as defaults from the Flock network.</p>
+
+    <h3>Southold's outbound reach: one third of it leaves New York</h3>
+    <div class="splitbar">
+      <div class="bar" role="img" aria-label="Of the 139 networks Southold can search, 93 are in New York and 46 are out of state.">
+        <div class="seg s1" style="width: 66.9%"></div>
+        <div class="seg s2" style="width: 33.1%"></div>
+      </div>
+      <div class="legend">
+        <span class="key"><span class="swatch" style="background: var(--series-1)"></span>New York: 93 networks</span>
+        <span class="key"><span class="swatch" style="background: var(--series-2)"></span>Out of state: 46 networks (CT, MA, PA, RI, NJ, DE, TX)</span>
+      </div>
+    </div>
+
+    <h3>Who they are</h3>
+    <div class="cat-grid">
+      <table class="cats">
+        <caption>Inbound: 59 agencies that can search Southold's cameras</caption>
+        <tbody>
+          <tr><td>Police departments</td><td class="n">48</td></tr>
+          <tr><td>District attorneys' offices</td><td class="n">3</td></tr>
+          <tr><td>Sheriff's offices</td><td class="n">2</td></tr>
+          <tr class="flag"><td>School districts &amp; campus police</td><td class="n">2</td></tr>
+          <tr><td>New York State Police</td><td class="n">1</td></tr>
+          <tr class="flag"><td>Intelligence / fusion center</td><td class="n">1</td></tr>
+          <tr><td>Transit authority police</td><td class="n">1</td></tr>
+          <tr><td>Other government (NYC DEP police)</td><td class="n">1</td></tr>
+        </tbody>
+      </table>
+      <table class="cats">
+        <caption>Outbound: 139 networks Southold can search</caption>
+        <tbody>
+          <tr><td>Police departments</td><td class="n">113</td></tr>
+          <tr><td>Sheriff's offices</td><td class="n">12</td></tr>
+          <tr class="flag"><td>School districts &amp; campus police</td><td class="n">6</td></tr>
+          <tr class="flag"><td>Intelligence / fusion networks</td><td class="n">2</td></tr>
+          <tr><td>Other local government</td><td class="n">2</td></tr>
+          <tr class="flag"><td>Private corporation (Home Depot)</td><td class="n">1</td></tr>
+          <tr><td>Tribal police (Foxwoods, CT)</td><td class="n">1</td></tr>
+          <tr><td>State police (CT)</td><td class="n">1</td></tr>
+          <tr><td>Airport</td><td class="n">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top: 28px;">The list includes a <strong>school district near Syracuse</strong>, a
+    <strong>casino's tribal police force</strong> in Connecticut, the <strong>Fort Worth, Texas</strong> police department
+    1,600 miles away, and <strong>Home Depot Corporation</strong>, a private company. All of them sit in the same
+    sharing network as the record of every drive you have taken past a Southold camera. Nobody in Southold approved
+    any of these connections. The Town cannot say who searched its data, or why, without asking the vendor.</p>
+
+    <h3>The device count behind the list</h3>
+    <p>On Aug. 3, 2026 the Town produced the device count behind its sharing list. It shows
+    <strong>279 network entries totaling 4,278 cameras</strong>, where the June production had described 139 networks.
+    The single "Home Depot Corporation" entry on the June roster resolves into roughly <strong>25 individual Home Depot
+    store networks</strong>, one of them labeled "Condors", Flock's live-video camera. The largest single entry is
+    <strong>1,021 live pan-tilt-zoom video cameras</strong> in one Fort Worth, Texas network, so the system's reach
+    includes live video feeds, not just plate photographs.</p>
+    <p>The Town's raw search logs show that reach being used. Individual searches queried up to
+    <strong>5,946 networks</strong> at once, and 411 of the 906 searches in the first half of 2026, about 45%,
+    went beyond 100 networks.</p>
+    <p class="src">Source: Town of Southold FOIL production, Aug. 3, 2026: device count (Exhibit 10) and raw
+      per-search audit logs (Exhibits 1–6).</p>
+
+    <h3>The full roster</h3>
+    <p class="small">Every name below is copied verbatim from the Town's own spreadsheets (Exhibits E1 and E2, snapshot May 18, 2026).
+      Out-of-state entries are bolded. Membership of the Flock network changes over time.</p>
+    <div class="roster-tools">
+      <input type="search" id="rosterFilter" placeholder="Search the roster (try &quot;school&quot;, &quot;CT&quot;, or &quot;Home Depot&quot;)" aria-label="Search the access roster">
+      <div class="count-note" id="rosterCount"></div>
+    </div>
+  </div>
+  <div class="wrap-wide">
+    <div class="tablewrap">
+      <table class="roster" id="roster">
+        <thead><tr><th></th><th>Agency / network</th><th>State</th><th>Category</th></tr></thead>
+        <tbody>
+          <tr class="tier-head"><td colspan="4">Inbound: agencies with access to Southold's cameras (Exhibit E1)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="cameras">
+  <div class="wrap">
+    <p class="kicker">The hardware</p>
+    <h2>What the cameras actually are</h2>
+    <p class="lede">The Town described license-plate cameras. The equipment in the field includes live video cameras, and the Town owns 3 of the 11.</p>
+
+    <p>Roughly <strong>11 Flock cameras</strong> operate in Southold. The Town bought only
+    <strong>3</strong> of them (with a state LETECH grant). The rest were donated by the
+    <strong>Suffolk County Sheriff's Office</strong> or sit on <strong>New York State right-of-way along Route 25</strong>,
+    so other governments control most of the cameras that operate in Southold.</p>
+
+    <table class="cats" style="max-width: 720px; margin-top: 18px;">
+      <caption>The Flock product line in the field</caption>
+      <tbody>
+        <tr><td><strong>Falcon</strong> (license-plate reader)</td><td>Captures plates at up to 100&nbsp;mph. Logs make, model, color, and identifying details like racks, decals, and damage. This is the only device described in the Town's contract.</td></tr>
+        <tr><td><strong>Condor</strong> (pan-tilt-zoom video)</td><td>Live-streaming PTZ video with 30-day storage, marketed for "virtual patrols." Deployed in Southold although public descriptions of the program said no live video, and never named in the authorizing resolution. The Town's Aug. 3 device count confirms Condor devices and 1,021 live-PTZ cameras among the networks Southold can search.</td></tr>
+        <tr><td><strong>Raven</strong> (audio sensor)</td><td>Acoustic detection (gunshots, glass, tire screech) that can automatically swivel Condor cameras toward a sound. The Town did not answer a request to certify whether Raven is deployed in Southold.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>The cameras run software that stopped getting security updates in 2021</h3>
+    <p>Flock's devices run <strong>Android 8.1</strong>, an operating system that reached end of life in 2021.
+    Security researchers have published working attacks against exactly this hardware: an unauthenticated
+    administrative interface on the device itself (CVE-2025-59403), hardcoded API keys in the software
+    (CVE-2025-59405), and a physical-access debug mode that yields full control of the device in about 30 seconds.
+    In December 2025, researchers found <strong>more than 60 Flock Condor cameras streaming live to the open
+    internet</strong>, no password required.</p>
+    <p>The Town's own systems were breached before, and the Town now spends about $500,000 to harden its
+    network. These cameras connect to that environment through the vendor's cloud.</p>
+    <p class="src">Sources: Town contract and sole-source letter (FOIL Exhibits E6–E7); public vulnerability disclosures
+      CVE-2025-59403 and CVE-2025-59405; 404 Media reporting, December 2025.</p>
+  </div>
+</section>
+
+<section id="money">
+  <div class="wrap">
+    <p class="kicker">The costs</p>
+    <h2>What Southold pays to be watched</h2>
+    <p class="lede">Southold pays about $9,000 a year, with no end date, for equipment it never owns and data it does not control.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="value">$9,000<span style="font-size:20px; color: var(--ink-2);">/yr</span></div><div class="label">Recurring cost once the grant runs out, indefinitely, under auto-renewal</div></div>
+      <div class="stat"><div class="value">$1</div><div class="label">What Flock pays to take the hardware back: the Town never owns the equipment</div></div>
+      <div class="stat"><div class="value">$0</div><div class="label">Current cyber-insurance coverage: the Town's produced 2024 policy package contains a cyber exclusion, and no current policy was produced</div></div>
+      <div class="stat"><div class="value">~$500K</div><div class="label">What the Town spends separately to secure the network these end-of-life cameras connect to</div></div>
+    </div>
+
+    <p>The contract auto-renews. The $1 buy-back clause means the Town never owns anything of value.
+    The data lives in Flock's cloud, so a town that cancels loses its records, which keeps towns from
+    canceling. The Town keeps the risk: cameras on end-of-life software carry its name, connect to its
+    network, and have no current cyber coverage on file.</p>
+    <p>The spending goes beyond Southold. In August 2025 the Suffolk County Legislature voted
+    <strong>$542,500</strong> to expand the County's own Flock fleet from 25 cameras to 60.</p>
+    <p class="src">Sources: Flock contract and invoice (FOIL production, March 13, 2026); insurance package,
+      Exhibit E8 (June 5, 2026); Suffolk County Legislature, August 2025; Town network-hardening bond, 2025.</p>
+  </div>
+</section>
+
+<section id="liability">
+  <div class="wrap">
+    <p class="kicker">Accountability</p>
+    <h2>Nobody signed off, and nobody maintains it</h2>
+    <p class="lede">The record shows a system that no one fully authorized, no one updates, and no one in Town government controls.</p>
+
+    <p><strong>What was authorized.</strong> The Town Board approved resolution RES-2025-75 by a unanimous vote.
+    The resolution describes a license-plate reader program. It does not mention the national network, the
+    139-network sharing list, or the live-video cameras.</p>
+    <p><strong>What was never authorized.</strong> The Town's June 2026 production contains no agreement, no Board vote,
+    no policy, and no supervisory sign-off for the national network access or for any entry on the sharing
+    rosters. The Town also stated there were "no opt-in or opt-out decisions." No produced document names the
+    person who approved the expanded access.</p>
+    <p><strong>Who operates it.</strong> The Town's own May 18, 2026 lists show 41 active user accounts. Three of
+    those users appear nowhere on the Town's Flock training report, and three more never passed the Flock
+    Search Certification. Six of the 41, including civilian dispatchers, hold no search certification. The
+    Town's audit notes document one more person who ran searches while appearing on neither list, so the user
+    list does not even capture everyone who has operated the system. The record does not show whether other
+    uncertified users ran searches, and for every period before February 2026, no audit exists to answer.</p>
+    <p><strong>Who checks it.</strong> The three produced audit reviews are self-reviews by a single supervisor,
+    and the earliest covers February 2026 onward. The system operated for years before that with no documented
+    audit at all. The one review that recorded searches with no case number still concluded that
+    "no discrepancies were identified."</p>
+    <p><strong>What is not maintained.</strong> The cameras run an operating system that stopped receiving security
+    updates in 2021, and the Town has produced no update plan. Published attacks against this exact hardware
+    exist (CVE-2025-59403, CVE-2025-59405).</p>
+    <p><strong>The spending works against itself.</strong> The Town spends about $500,000 to harden its network while
+    cameras with published exploits sit at the edge of it: devices the Town does not own, does not patch, and
+    cannot audit. Security researchers warn that an attacker who takes control of one camera can use it as a
+    pivot point toward an agency's own network. Attackers now use automated, AI-assisted tools, and even
+    air-gapped systems have been compromised. The hardening money cannot do its job while known-vulnerable
+    devices stay connected.</p>
+    <p><strong>Where the exposure lands.</strong> The cameras carry the Town's name and connect, through the vendor's
+    cloud, to the Town's environment. The Town's produced insurance package contains a cyber exclusion, and no
+    current cyber policy was produced. If this system is breached or misused, the legal and financial exposure
+    lands on the Town and its taxpayers.</p>
+
+    <p>These questions remain open on the record:</p>
+    <ul class="actions">
+      <li>Who owns each camera, and who can turn the system off?</li>
+      <li>Who approved the national network access and the sharing defaults?</li>
+      <li>Who is responsible for patching, or retiring, devices that no longer receive security updates?</li>
+      <li>Who pays if the data is breached, misused, or sold?</li>
+    </ul>
+    <p class="src">Sources: RES-2025-75 (Exhibit E6); Town cover letter and Exhibits E1–E2 (June 5, 2026);
+      insurance package (Exhibit E8); public vulnerability disclosures; June 2026 meeting record.</p>
+  </div>
+</section>
+
+<section id="harms">
+  <div class="wrap">
+    <p class="kicker">The harms</p>
+    <h2>The safeguards are already failing</h2>
+    <p class="lede">The Town's own audit records show misuse at home. National reporting shows where it leads.</p>
+
+    <h3>In Southold's own records</h3>
+    <p class="small">On Aug. 3, 2026 the Town produced the raw per-search logs for January through June 2026, the
+    records this site had been asking for since March. The numbers below come from those logs and from the Town's
+    earlier audit summaries. The logs confirm the summaries' arithmetic, and they show what the summaries left out.</p>
+    <ul class="actions">
+      <li><strong>906 searches in six months</strong> (January–June 2026), in a town of about 22,000 people. One detective ran 45% of them.</li>
+      <li><strong>45% of searches went beyond 100 networks.</strong> Fifty-eight searches queried more than 300 networks at once, and the widest queried <strong>5,946 networks</strong>, effectively the national database, for local cases. The supervisor who writes the department's own audit reviews also ran national-scale searches.</li>
+      <li><strong>Three officers ran searches while appearing on no training or certification list the Town has ever produced</strong>, 43 searches among them. One of the three is the department's heaviest national-network searcher. Department policy says no member may operate the system without completing training first.</li>
+      <li><strong>The training came after the scrutiny.</strong> Every Flock certification the Town produced is dated 2026. The earliest is Jan. 4, 2026, less than three weeks after the first FOIL request, although the program had been running since 2025. Two officers were still completing certification in July 2026.</li>
+      <li><strong>Placeholder case numbers pass the audit.</strong> One search series was logged under case number "SH25000000." The produced audit reviews check that a case-number field is filled in, and a placeholder fills it in.</li>
+      <li><strong>Searches with no case number</strong>: run by an officer who appears on <em>neither</em> the Town's trained-officer list <em>nor</em> its active-user list. One search was explained afterward as an "officer safety issue" from a personal driving interaction outside Southold's jurisdiction. The audit review marked the system "compliant" anyway.</li>
+      <li><strong>Uncertified operators</strong>: six of the Town's 41 active users, including civilian dispatchers, hold no Flock Search Certification. Three of them have no Flock training record at all.</li>
+      <li><strong>Nationwide network access with zero authorization</strong>: the Town produced no agreement, no Board authorization, no policy, and no supervisory-approval requirement governing the national network its logs show officers searching.</li>
+      <li><strong>Unvetted sharing</strong>: nobody in Southold individually approved any entry on the sharing rosters, and there is no opt-out.</li>
+    </ul>
+    <p class="small">Two things should be said in fairness. The Town withheld the plate numbers and vehicle
+    descriptions inside the logs, and it identified that redaction and its claimed legal basis in writing, which is
+    how a redaction should be made. And the raw logs match the totals in the department's earlier audit summaries,
+    so the summaries were honest arithmetic. The problems documented here are in what the system permits, not in the
+    Town's math.</p>
+
+    <h3>What this data reveals, and who can buy it</h3>
+    <p>One photo of your plate shows where your car was at one moment. Months of photos show where you
+    sleep, work, worship, seek medical care, and protest, and who you spend time with.
+    In <em>Carpenter v. United States</em> (2018), the Supreme Court held that under the Fourth Amendment,
+    government tracking of "the whole of one's physical movements" is a search that ordinarily requires a
+    warrant. Whether that rule reaches plate-reader networks is being decided right now. In January 2026 a
+    federal judge upheld Norfolk, Virginia's 176-camera Flock network, but only because its 21-day archive
+    left gaps in any one driver's trail, and he warned that the answer could change as networks grow: "not
+    today" (WHRO, February 2026). That case is now before the Fourth Circuit. Then on June 29, 2026, the
+    Supreme Court held in <em>Chatrie v. United States</em> that people keep a reasonable expectation of
+    privacy in their digital location data even over short periods, and even when a company stores it for
+    them. Those are the two defenses plate-reader networks rely on. Flock's network logs those movements
+    for everyone, without a warrant and without a way to opt out, and Southold's own logs show single
+    searches reaching 5,946 networks of it.</p>
+    <p>Flock's standard terms once stated that it "does not own and shall not sell Customer Data."
+    Flock <strong>removed</strong> that language before its February 2026 terms took effect. Its current policy
+    reserves the right to disclose plate data to "law enforcement authorities, government officials, and/or
+    third parties." New York has no statute that restricts ALPR data sharing or sale. Southold has no
+    ordinance. A private corporation is already inside the network. No contract, statute, or local rule now
+    prevents the sale of this data.</p>
+
+    <h3>The national record, in brief</h3>
+    <ul class="actions">
+      <li><strong>Stalking:</strong> more than a dozen documented cases of officers using Flock to track ex-partners and others (404 Media).</li>
+      <li><strong>Person-search:</strong> Flock's "FreeForm" tool lets users search by clothing, tattoos, even race (404 Media).</li>
+      <li><strong>Immigration sweeps:</strong> local officers ran Flock searches to assist federal immigration enforcement, despite Flock's stated policy (404 Media). Since early 2025, more than 50 communities in at least 20 states have canceled, suspended, or refused Flock contracts, many after discovering exactly this.</li>
+      <li><strong>False hits:</strong> in June 2026 a journalist test-driving a press car was surrounded by four police cruisers over a misread plate. Flock's CEO called it an "edge case." The officers' advice was to leave the car parked so it did not get flagged again (CNN, July 2026).</li>
+    </ul>
+    <h3>Where this goes next</h3>
+    <ul class="actions">
+      <li><strong>Can ICE search it?</strong> Southold's rosters do not list federal immigration agencies. But 59
+      agencies and a national network can search the data with no per-search approval, and local officers around
+      the country have already run Flock searches for federal immigration enforcement. The Town cannot rule it out.</li>
+      <li><strong>Has it been used against reproductive rights?</strong> Yes. In 2025 a Texas sheriff's office searched
+      thousands of Flock cameras across the country for a woman after a self-managed abortion. The search was
+      logged as a "death investigation" (404 Media).</li>
+      <li><strong>Can it touch your insurance?</strong> Insurers already buy driving data: 2024 reporting showed car
+      makers sold driver behavior to data brokers, and insurers used it to set rates. Flock's current terms no
+      longer bar the sale of its data. A record of where and when you drive can feed pricing decisions you never
+      see: car insurance first, and inferences beyond it.</li>
+      <li><strong>Can a bumper sticker put you in a group?</strong> The cameras log decals and stickers as identifying
+      details, and Flock's search tools let users query such attributes. A political sticker, a union sticker, or
+      a parish sticker becomes a searchable trait in a national database.</li>
+      <li><strong>What if the data leaks?</strong> Data this valuable is bought by those who pay and taken by those who
+      do not. Researchers already found more than 60 Flock cameras streaming live to the open internet with no
+      password.</li>
+    </ul>
+    <p class="src">Sources: Town raw per-search audit logs and training report, FOIL production of Aug. 3, 2026
+      (Exhibits 1–6, 9); Town audit reviews and user rosters, FOIL Exhibits E3–E5 (June 5, 2026); 404 Media;
+      CNN Wire, July 31, 2026; ACLU analysis of Flock's terms; Flock LPR policy; 2024 national reporting on
+      automaker driver-data sales to insurers.</p>
+  </div>
+</section>
+
+<section id="record">
+  <div class="wrap">
+    <p class="kicker">The pattern</p>
+    <h2>What was said vs. what the records show</h2>
+    <p class="lede">Eight times, the public statements and the Town's own records disagree. Each time, the records show more surveillance than the public was told about.</p>
+
+    <div class="vs">
+      <div class="pair">
+        <p class="said">Police Chief Steven Grattan: the cameras capture "limited vehicle details (such as make, model, color and distinguishing features) as the vehicles pass the camera's location on public roadways," and are "not used for general surveillance of neighborhoods or for monitoring the daily activities of residents."</p>
+        <p class="shown">Condor pan-tilt-zoom <strong>live video</strong> cameras, with live streaming and 30-day recorded storage, are deployed in Southold. The authorizing resolution (RES-2025-75) describes none of this.</p>
+      </div>
+      <div class="pair">
+        <p class="said">Chief Grattan: the department "maintains full control over all data for the cameras we own. Information may be shared with other law enforcement agencies only at our discretion and only for legitimate law enforcement purposes."</p>
+        <p class="shown">The Town stated in its FOIL response that there were <strong>"no opt-in or opt-out decisions"</strong> behind the 59-agency and 139-network sharing lists. And the Town owns 3 of the roughly 11 cameras in Southold, so "the cameras we own" leaves most of them outside that promise.</p>
+      </div>
+      <div class="pair">
+        <p class="said">Chief Grattan: "The Flock system cannot be used to search for human characteristics such as race or gender."</p>
+        <p class="shown">404 Media reported that Flock's "FreeForm" tool lets users search by what a person wears, their tattoos, or their race. Flock's own response was that "guardrails" alert administrators when search terms include "race, ethnicity, religion, nationality." A guardrail that flags race terms exists because race terms can be entered.</p>
+      </div>
+      <div class="pair">
+        <p class="said">Chief Grattan: "The Southold Town Police Department does not use Flock Safety Cameras for immigration enforcement." Public materials also state that system filters automatically prevent searches related to immigration or reproductive healthcare.</p>
+        <p class="shown">Nationally, local officers have run Flock searches to assist federal immigration enforcement, and in 2025 a Texas sheriff's office searched Flock cameras across the country for a woman after a self-managed abortion (404 Media). Southold's produced record shows <strong>no per-search approval</strong> that would catch such a search here.</p>
+      </div>
+      <div class="pair">
+        <p class="said">The Town's own audit reviews conclude: "All searches were found to include valid case numbers and articulable law enforcement purposes consistent with department policy. No discrepancies were identified."</p>
+        <p class="shown">The same review's case-number column reads <strong>"3 by [one officer] have zeros for CC"</strong>: three searches with no case number, by an officer on neither the trained-officer nor the active-user roster.</p>
+      </div>
+      <div class="pair">
+        <p class="said">The vendor's sole-source letter, in the Town's own production (Exhibit 7), describes the system's full capabilities.</p>
+        <p class="shown">The Town's cover letter concedes the Board <strong>was never told</strong> of capabilities described in that same letter.</p>
+      </div>
+      <div class="pair">
+        <p class="said">Department policy: no member may operate the ALPR system or access its data "without first completing department-approved training."</p>
+        <p class="shown">The raw logs show <strong>three officers running searches who appear on no training or certification list</strong> the Town has produced. Every certification the Town did produce is dated 2026, after the first FOIL request, although the program had been running since 2025.</p>
+      </div>
+      <div class="pair">
+        <p class="said">At the June 25, 2026 meeting, the department committed to requiring sign-off before any search that crosses outside its jurisdiction.</p>
+        <p class="shown">The raw logs the Town produced contain <strong>no approval or sign-off field</strong>, and searches spanning 225 to 250 networks continued on the day of the meeting and in the days after it. If the sign-off exists, no produced record shows it.</p>
+      </div>
+    </div>
+    <p style="margin-top: 26px;">Each row above quotes a public statement or the Town's own productions. The
+    underlying documents will be published on this site as they are prepared for release.</p>
+    <p class="src">Quoted statements: Police Chief Steven Grattan's public statements on the Flock program;
+      the Town's audit reviews and cover letter, FOIL production of June 5, 2026 (Exhibits E3, E6, E7);
+      the Town's raw audit logs and training report, FOIL production of Aug. 3, 2026 (Exhibits 1–6, 9);
+      department ALPR policy; the June 25, 2026 meeting record; 404 Media reporting on FreeForm and immigration searches.</p>
+  </div>
+</section>
+
+<section id="county">
+  <div class="wrap">
+    <p class="kicker">The bigger picture</p>
+    <h2>The Suffolk County grid</h2>
+    <p class="lede">A few roads carry all traffic on and off the North Fork. Cameras on those roads record every trip, and the county is adding more.</p>
+
+    <p>Southold sits on a peninsula. A small number of routes, Route 25 chief among them, carry
+    essentially every trip on and off the North Fork. Cameras on those routes record every commute,
+    every school run, every trip to a doctor, a church, a meeting, a protest. On a peninsula, you
+    cannot drive around the cameras.</p>
+    <p>The network keeps growing, by design that avoids public votes. Most of Southold's cameras were
+    <strong>donated by the Suffolk County Sheriff</strong>. In August 2025 the County Legislature funded an expansion of the
+    County's own fleet from 25 to 60 cameras, expressly in areas that <strong>"don't require local or state
+    legislative approval."</strong> Sixteen more cameras were planned along State rights-of-way, including
+    <strong>Route 25 in Southold</strong> and Route 114 in Sag Harbor and East Hampton. And the County is signing
+    right-of-way agreements town by town: in January 2026, Riverhead voted to let the Sheriff install on
+    its town roads in exchange for data access. That agreement is the template. <strong>Has Southold been asked
+    to sign one?</strong> The Town should answer that in public. Each new camera feeds the same vendor's national,
+    searchable database, which, as the rosters above show, agencies and companies far outside
+    the county can search.</p>
+    <p><strong>Separate FOIL requests are being prepared for the County and the State.</strong> The Town owns only
+    3 of the roughly 11 cameras in Southold. The rest trace to the Suffolk County Sheriff and to State
+    right-of-way along Route 25, so the records behind them sit with county and state custodians, not the
+    Town. Requests are going to the Suffolk County Sheriff's Office, the county government, the Department
+    of Public Works, the County Legislature, and NYSDOT. Results will be published here.</p>
+    <p>Bills that would regulate any of this in New York, <strong>S963</strong> and <strong>S7713A/A907A</strong>,
+    remain stuck in committee. Meanwhile the County Legislature is weighing <strong>IR 1393-2026</strong>, which
+    would require certain businesses to provide their security-camera footage to law enforcement after
+    felonies, extending the lattice to private cameras by law. Until a state law passes, each town sets
+    its own limits, or none.</p>
+    <p class="src">Sources: Suffolk County Legislature (August 2025 expansion; 2026 meeting agendas, IR 1393-2026);
+      East End Beacon (January 2026) on the Riverhead right-of-way agreement and planned State-ROW cameras;
+      Town FOIL productions on camera ownership; NY Senate/Assembly bill status.</p>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="wrap">
+    <p class="kicker">How we know</p>
+    <h2>FOIL</h2>
+    <p class="lede">The Town released these records only after three rounds of requests, two appeals, and eight months of pressure.</p>
+
+    <ul class="timeline">
+      <li><span class="d">Dec 16, 2025</span><span>First FOIL request filed. <span class="miss">Ignored past the statutory 5-day window</span>. Acknowledged only after a constructive-denial appeal. Granted Dec 23: the Town's ALPR policy covers plate readers only.</span></li>
+      <li><span class="d">Dec 31, 2025</span><span>Second request: contract, capabilities, data-sharing, correspondence. Answered March 13 with 35 pages, with internal emails withheld <em>in their entirety</em>, contrary to controlling New York precedent.</span></li>
+      <li><span class="d">Mar 30, 2026</span><span>Third request: 32 items on the national network, undisclosed hardware, audit gaps, and cybersecurity. A 30-day extension was claimed <span class="miss">retroactively</span>.</span></li>
+      <li><span class="d">Apr 29, 2026</span><span><span class="miss">Extension expires.</span> The Town issued no determination and produced no records.</span></li>
+      <li><span class="d">May 1, 2026</span><span>The Town requests a <em>second</em> 30-day extension. Declined. An administrative appeal was filed the same day.</span></li>
+      <li><span class="d">May 15, 2026</span><span><span class="miss">Appeal-determination deadline missed.</span> Under New York law this counts as a denial, and a court can then compel the records.</span></li>
+      <li><span class="d">Jun 5, 2026</span><span>First substantive response, 67 days after the request. The production includes the access rosters on this page, and concedes there were "no opt-in or opt-out decisions." Six categories of records remain withheld.</span></li>
+      <li><span class="d">Jun 25, 2026</span><span>In-person meeting and camera walk-through with the police department. One commitment made: sign-off before out-of-jurisdiction searches. National access stays on. No new records.</span></li>
+      <li><span class="d">Jul 2026</span><span>Two written promises of records ("as soon as I have them together" and "by the end of the month/early August").</span></li>
+      <li><span class="d">Aug 3, 2026</span><span>The Town keeps the promise. Ten exhibits: six months of raw per-search audit logs, the RES-2025-75 minutes, the training-completion dates, and the device count (279 networks, 4,278 cameras), with a written statutory citation for each item withheld. The Town FOIL track closes the same day with a letter of thanks.</span></li>
+      <li><span class="d">Aug 11, 2026</span><span>The open questions move to the Town Board. At public comment, several residents speak against the system, independently. Two questions are put to the Board on the record and repeated in writing the next day: will the Board bring the sharing settings to a public vote, and who outside Southold has searched residents' data. Neither received a clear answer at the meeting.</span></li>
+      <li><span class="d">Aug 2026</span><span>Separate FOIL requests in preparation for Suffolk County (the Sheriff's Office, county government, DPW, and Legislature) and for NYSDOT. The Town never held the records for the cameras it does not own; those custodians do.</span></li>
+      <li><span class="d">Sep 2026</span><span>The Article 78 window, the court deadline to compel records, closes in mid-September. The Aug. 3 production resolved most of what a petition would have sought; whether the narrow remainder warrants a filing is under review before the window closes.</span></li>
+    </ul>
+    <p style="margin-top: 24px;"><strong>Credit where it is due.</strong> Most of this timeline records delay, so it
+    should record this too. Answering these requests took a large amount of work from people whose actual jobs are
+    running a police department and a law office, and the Aug. 3 response was exemplary: records produced, every
+    question answered in writing, every withholding tied to a stated legal basis. We still disagree with the Town
+    about this system, how it was implemented, and the techniques it relies on. We are grateful all the same to the
+    department, the captain, and the Town Attorney's office.</p>
+    <p>The requests, responses, and correspondence behind this timeline will be published
+    here as a document library, redacted only for personal contact information.</p>
+  </div>
+</section>
+
+<section id="position">
+  <div class="wrap">
+    <p class="kicker">Our position</p>
+    <h2>What we want, and what comes next</h2>
+    <p class="lede">We want the cameras removed. The harms fall on the whole community, and the rollout never matched its public description.</p>
+
+    <p><strong>Removal.</strong> Every driver in Southold is recorded, the data leaves local control, and the
+    safeguards have already failed in the Town's own audit records. We are asking the Town to end the
+    program and remove the cameras.</p>
+    <p><strong>The September court window.</strong> For months the Town withheld six categories of records past every
+    statutory deadline, and the right to compel them in court under Article 78 of New York law vested in May. On
+    Aug. 3 the Town produced most of those records with a written legal basis for each item withheld. What remains
+    open is narrow: search logs from before 2026 and a user-account history, which the Town has not yet addressed,
+    and two records it says it is not required to create, a <em>Vaughn</em> index of withheld records and a
+    certification that no Flock video or audio devices are deployed here. Whether that remainder warrants a court
+    filing is under review before the window closes in mid-September.</p>
+    <p><strong>Counsel.</strong> We are in active dialog with civil-liberties organizations about joining a
+    related case.</p>
+    <p><strong>A separate question: the Town's own laws.</strong> We have not yet reviewed whether the rollout
+    complied with the Town's own code and procurement rules. That review is a separate, planned effort.
+    Nothing on this page claims a violation of Town law.</p>
+
+    <h3>The questions now before the Town Board</h3>
+    <p>We want the cameras gone. That ask has not changed. On the way there, two questions were put to the
+    Board at public comment on Aug. 11 and repeated in writing on Aug. 12. Neither has received a clear answer.</p>
+    <ol class="actions">
+      <li><strong>Will the Board put Flock's sharing settings to a public vote?</strong> The 59 outside agencies
+      with direct access and the national network were never authorized by any elected body. The Town's own
+      response concedes there were "no opt-in or opt-out decisions."</li>
+      <li><strong>Who outside Southold has searched residents' data, and why?</strong> The Town holds no inbound
+      search log today. Will it obtain that record from Flock — who searched, when, and the stated reason — and
+      publish it?</li>
+    </ol>
+    <p>The rest of what we are asking:</p>
+    <ul class="actions">
+      <li><strong>Suspend the national and external access</strong> pending Board review. The department has said this is a Town-level decision, so the Board can make it.</li>
+      <li><strong>Put the June commitment in writing.</strong> The department agreed to sign-off before out-of-jurisdiction searches. Make it a written, verifiable policy.</li>
+      <li><strong>Disclose the County's ask.</strong> Has the County requested a right-of-way agreement like Riverhead's? Bring any such agreement to a public vote, not a consent calendar.</li>
+      <li><strong>Answer on the record:</strong> who owns each camera, who can turn the system off, who is responsible for devices that no longer receive security updates, and who pays if the data is breached or sold?</li>
+    </ul>
+  </div>
+</section>
+
+<section id="act">
+  <div class="wrap">
+    <p class="kicker">Take action</p>
+    <h2>What you can do</h2>
+    <p class="lede">More than 50 communities have canceled or refused Flock contracts. In Southold, the Town Board makes these decisions, and you can speak to them directly.</p>
+    <ol class="actions">
+      <li><strong>Show up.</strong> The Southold Town Board meets at Town Hall, 53095 Route 25. Residents already pressed the Town's Public Safety Task Force in April 2026 to drop the cameras, and several more spoke against the system at the Aug. 11 Board meeting. You are not alone. Ask the questions listed under <a href="#position">Position</a>, on the record.</li>
+      <li><strong>Write the Board.</strong> Ask for three things: local-only sharing by default, per-agency opt-in decisions made in public, and publication of the raw search audit logs the policy already requires.</li>
+      <li><strong>Ask the County.</strong> Suffolk County is expanding its own fleet with public money. Your county legislator votes on that.</li>
+      <li><strong>Back the state bills.</strong> S963 and S7713A/A907A would set statewide rules for ALPR data. Tell your state senator and assembly member to move them.</li>
+      <li><strong>See the national picture.</strong> <a href="https://deflock.org" target="_blank" rel="noopener">DeFlock.org</a> maps ALPR deployments nationwide and tracks communities that have opted out.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>About this site.</strong> 11971.com is maintained by a Southold resident. Every factual claim on this
+    page is drawn from records produced by the Town of Southold under the New York Freedom of Information Law,
+    from public legislative records, or from cited national reporting. Agency rosters are reproduced verbatim from
+    the Town's spreadsheets (roster snapshot May 18, 2026; device count and raw search logs produced Aug. 3, 2026);
+    network membership changes over time. Where the page
+    characterizes those facts, the characterization is the author's opinion. Nothing here is legal advice, and
+    nothing here is an accusation of unlawful conduct by any individual.</p>
+    <p>Corrections are welcome and will be made promptly: <a href="mailto:contact@11971.com" target="_blank">contact@11971.com</a>.</p>
+    <p>Source documents will be published as they are prepared for release. Last updated Aug. 12, 2026.</p>
+    <p class="small" style="margin-top: 18px;">
+      <a href="https://deflock.org" target="_blank" rel="noopener">DeFlock.org</a> ·
+      <a href="https://www.nysenate.gov/legislation/bills/2025/S963" target="_blank" rel="noopener">NY Senate S963</a> ·
+      <a href="https://www.nysenate.gov/legislation/bills/2025/S7713" target="_blank" rel="noopener">S7713A</a> /
+      <a href="https://www.nysenate.gov/legislation/bills/2025/A907" target="_blank" rel="noopener">A907A</a> ·
+      <a href="https://www.eff.org/pages/automated-license-plate-readers-alpr" target="_blank" rel="noopener">EFF on ALPRs</a> ·
+      <a href="https://www.southoldtownny.gov" target="_blank" rel="noopener">Southold Town Board</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+// ---- Roster data: verbatim from Town of Southold FOIL production (June 5, 2026), Exhibits E1/E2, snapshot May 18, 2026 ----
+const TIER1 = [
+["Albany City NY PD","New York","Police",0],["Amherst Town NY PD","New York","Police",0],["Auburn NY PD","New York","Police",0],
+["Baldwinsville Central School District Inc NY","New York","School / campus",0],["Batavia NY PD","New York","Police",0],
+["Brookville NY PD","New York","Police",0],["Chautauqua County NY District Attorney's Office","New York","District Attorney",0],
+["Cheektowaga Town NY PD","New York","Police",0],["Clarkstown NY PD","New York","Police",0],["Clinton CT PD","Connecticut","Police",1],
+["Crawford Town NY PD","New York","Police",0],["Dewitt Town NY PD","New York","Police",0],["East Hampton Village NY PD","New York","Police",0],
+["Elmira City NY PD","New York","Police",0],["Evans Town NY PD","New York","Police",0],["Fallsburg Town NY PD","New York","Police",0],
+["Garden City NY PD","New York","Police",0],["Glen Cove NY PD","New York","Police",0],["Greenport Town NY PD","New York","Police",0],
+["Guilderland NY PD","New York","Police",0],["Hamburg Town NY PD","New York","Police",0],["Hempstead Village NY PD","New York","Police",0],
+["Hyde Park NY PD","New York","Police",0],["Ithaca College Campus NY PD","New York","School / campus",0],
+["Lackawanna City NY PD","New York","Police",0],["Liberty Village NY PD","New York","Police",0],["Lynbrook Village NY PD","New York","Police",0],
+["Middletown NY PD","New York","Police",0],["NY - Massena Village PD","New York","Police",0],
+["NYS Crime Analysis Center Network","—","Intelligence / fusion",0],["Nassau County NY PD","New York","Police",0],
+["New Windsor Town NY PD","New York","Police",0],["New York City Department of Environmental Protection PD","New York","Other government",0],
+["New York State Police NY","New York","State Police",0],["Newburgh City NY PD","New York","Police",0],
+["Niagara Falls City NY PD","New York","Police",0],["Niagara Frontier Transit Authority (NFTA) PD","—","Transit / airport",0],
+["Old Westbury Village NY PD","New York","Police",0],["Orange County (NY) District Attorney's Office","New York","District Attorney",0],
+["Owego Village NY PD","New York","Police",0],["Quogue Village NY PD","New York","Police",0],
+["Rensselaer County NY SO","New York","Sheriff's Office",0],["Sag Harbor Village NY PD","New York","Police",0],
+["Saratoga Springs NY PD","New York","Police",0],["Scotia Village NY PD","New York","Police",0],
+["Suffolk County District Attorney's Office NY","New York","District Attorney",0],["Suffolk County NY PD","New York","Police",0],
+["Suffolk County NY SO","New York","Sheriff's Office",0],["Town of Newburgh NY PD","New York","Police",0],
+["Town of Pine Plains NY PD","New York","Police",0],["Town of Poughkeepsie NY PD","New York","Police",0],
+["Town of Woodbury NY PD","New York","Police",0],["Troy NY PD","New York","Police",0],["Utica City NY PD","New York","Police",0],
+["Village of Medina NY PD","New York","Police",0],["Wappingers Falls Village NY PD","New York","Police",0],
+["Warwick Town NY PD","New York","Police",0],["Watervliet NY PD","New York","Police",0],["Westhampton Beach Village NY PD","New York","Police",0]
+];
+const TIER2 = [
+["Acushnet MA PD","Massachusetts","Police",1],["Albany City NY PD","New York","Police",0],["Allentown PA PD","Pennsylvania","Police",1],
+["Amherst Town NY PD","New York","Police",0],["Auburn NY PD","New York","Police",0],["Avoca PA PD","Pennsylvania","Police",1],
+["Baldwinsville Central School District Inc NY","New York","School / campus",0],["Batavia NY PD","New York","Police",0],
+["Beacon City NY PD","New York","Police",0],["Bedminster Twp NJ PD","New Jersey","Police",1],["Bethlehem PA PD","Pennsylvania","Police",1],
+["Binghamton City NY PD","New York","Police",0],["Braintree MA PD","Massachusetts","Police",1],["Bristol CT PD","Connecticut","Police",1],
+["Brookville NY PD","New York","Police",0],["Broome CO NY SO","New York","Sheriff's Office",0],
+["Buffalo State University NY PD","New York","School / campus",0],["Butler Township PA PD","Pennsylvania","Police",1],
+["Camillus Town/Village NY PD","New York","Police",0],["Canton MA PD","Massachusetts","Police",1],
+["Centre Island Village NY PD","New York","Police",0],["Charlton MA PD","Massachusetts","Police",1],
+["Cheektowaga Town NY PD","New York","Police",0],["Cicero Town NY PD","New York","Police",0],
+["City of Groton CT PD","Connecticut","Police",1],["Clarkstown NY PD","New York","Police",0],["Clinton CT PD","Connecticut","Police",1],
+["Cohoes NY PD","New York","Police",0],["Colonie NY PD","New York","Police",0],["Columbia County NY SO","New York","Sheriff's Office",0],
+["Crawford Town NY PD","New York","Police",0],["Dewitt Town NY PD","New York","Police",0],
+["Dutchess County NY SO","New York","Sheriff's Office",0],["East Greenbush NY PD","New York","Police",0],
+["East Hampton Village NY PD","New York","Police",0],["East Lyme CT PD","Connecticut","Police",1],
+["East Providence RI PD","Rhode Island","Police",1],["Elmira City NY PD","New York","Police",0],
+["Erie County NY SO","New York","Sheriff's Office",0],["Fairfield CT PD","Connecticut","Police",1],
+["Fall River MA PD","Massachusetts","Police",1],["Fishkill Town NY PD","New York","Police",0],
+["Fort Worth TX PD","Texas","Police",1],["Franklin County PA SO","Pennsylvania","Sheriff's Office",1],
+["Franklin MA PD","Massachusetts","Police",1],["Franklin Township PA PD","Pennsylvania","Police",1],
+["Freeport Village NY PD","New York","Police",0],["Garden City NY PD","New York","Police",0],
+["Geddes Town NY PD","New York","Police",0],["Genesee County NY SO","New York","Sheriff's Office",0],
+["Glen Cove NY PD","New York","Police",0],["Green Island NY PD","New York","Police",0],
+["Greenport Town NY PD","New York","Police",0],["Guilderland NY PD","New York","Police",0],
+["Hamburg Town NY PD","New York","Police",0],["Hamburg Village NY PD","New York","Police",0],
+["Hazleton PA PD","Pennsylvania","Police",1],["Hempstead Village NY PD","New York","Police",0],
+["Herkimer Village NY PD","New York","Police",0],["Home Depot Corporation","—","Private / commercial",0],
+["Homer Village NY PD","New York","Police",0],["Hudson Valley Cmnty College Campus NY PD","New York","School / campus",0],
+["Huntington Bay NY PD","New York","Police",0],["Hyde Park NY PD","New York","Police",0],
+["Inc Village of Lake Success NY","New York","Other government",0],["Kenmore Village NY PD","New York","Police",0],
+["Lackawanna City NY PD","New York","Police",0],["Lancaster NY PD","New York","Police",0],
+["LeRoy Village NY PD","New York","Police",0],["Lehigh County PA (RIIC)","Pennsylvania","Intelligence / fusion",1],
+["Lewisboro Town NY PD","New York","Police",0],["Liberty Village NY PD","New York","Police",0],
+["Lynbrook Village NY PD","New York","Police",0],["Mahoning Twp PA PD","Pennsylvania","Police",1],
+["Marlborough Town NY PD","New York","Police",0],["Maybrook Village NY PD","New York","Police",0],
+["Middletown NY PD","New York","Police",0],["Milford MA PD","Massachusetts","Police",1],
+["Millis MA PD","Massachusetts","Police",1],["Milton MA PD","Massachusetts","Police",1],
+["Mount Hope NY PD","New York","Police",0],["Muttontown NY PD","New York","Police",0],
+["NESPIN - New England State Police Information Network","New England (multi-state)","Intelligence / fusion",1],
+["New Canaan CT PD","Connecticut","Police",1],["New Castle County DE PD","Delaware","Police",1],
+["New York Institute of Technology Campus PD","New York","School / campus",0],["Newtown CT PD","Connecticut","Police",1],
+["Niagara County NY SO","New York","Sheriff's Office",0],["Niagara Falls City NY PD","New York","Police",0],
+["North Kingstown RI PD","Rhode Island","Police",1],["Northport NY PD","New York","Police",0],
+["Old Westbury Village NY PD","New York","Police",0],["Onondaga County NY SO","New York","Sheriff's Office",0],
+["Orleans County NY SO","New York","Sheriff's Office",0],["Quincy MA PD","Massachusetts","Police",1],
+["Quogue Village NY PD","New York","Police",0],["Rensselaer County NY SO","New York","Sheriff's Office",0],
+["Rensselaer NY PD","New York","Police",0],["Revere MA PD","Massachusetts","Police",1],
+["Ridgefield CT PD","Connecticut","Police",1],["Ross Township PA PD","Pennsylvania","Police",1],
+["SUNY Old Westbury NY PD","New York","School / campus",0],["SUNY-Onondaga Community College Campus NY PD","New York","School / campus",0],
+["Sag Harbor Village NY PD","New York","Police",0],["Saint Johnsville Village NY PD","New York","Police",0],
+["Saranac Lake Village NY PD","New York","Police",0],["Saratoga County NY SO","New York","Sheriff's Office",0],
+["Saratoga Springs NY PD","New York","Police",0],["Scotia Village NY PD","New York","Police",0],
+["Solvay Village NY PD","New York","Police",0],["Somerset MA PD","Massachusetts","Police",1],
+["Stonington CT PD","Connecticut","Police",1],["Suffolk County NY PD","New York","Police",0],
+["Suffolk County NY SO","New York","Sheriff's Office",0],["Syracuse-Hancock Intl Airport NY","New York","Transit / airport",0],
+["Taunton MA PD","Massachusetts","Police",1],["Tiverton RI PD","Rhode Island","Police",1],
+["Town of Brookhaven NY","New York","Other government",0],["Town of East Fishkill NY PD","New York","Police",0],
+["Town of Lisbon Troopers CT","Connecticut","State Police",1],["Town of Newburgh NY PD","New York","Police",0],
+["Town of Poughkeepsie NY PD","New York","Police",0],["Town of Woodbury NY PD","New York","Police",0],
+["Tribal Police at Foxwoods CT PD","Connecticut","Tribal police",1],["Troy NY PD","New York","Police",0],
+["Ulster Town NY PD","New York","Police",0],["Utica City NY PD","New York","Police",0],
+["Vernon CT PD","Connecticut","Police",1],["Vestal Town NY PD","New York","Police",0],
+["Village of West Hampton Dunes NY PD","New York","Police",0],["Wappingers Falls Village NY PD","New York","Police",0],
+["Washingtonville NY PD","New York","Police",0],["Watervliet NY PD","New York","Police",0],
+["Wellesley MA PD","Massachusetts","Police",1],["West Hartford CT PD","Connecticut","Police",1],
+["West Seneca NY PD","New York","Police",0],["Westhampton Beach Village NY PD","New York","Police",0],
+["Westport CT PD","Connecticut","Police",1],["Windsor Locks CT PD","Connecticut","Police",1]
+];
+
+const tbody = document.querySelector('#roster tbody');
+function addRows(list, tierLabel) {
+  list.forEach((r, i) => {
+    const tr = document.createElement('tr');
+    tr.dataset.tier = tierLabel;
+    if (r[3]) tr.className = 'oos';
+    tr.innerHTML = '<td class="n">' + (i + 1) + '</td><td>' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+addRows(TIER1, 'in');
+const t2head = document.createElement('tr');
+t2head.className = 'tier-head';
+t2head.innerHTML = '<td colspan="4">Outbound: networks Southold’s system can search (Exhibit E2)</td>';
+tbody.appendChild(t2head);
+addRows(TIER2, 'out');
+
+const filter = document.getElementById('rosterFilter');
+const countNote = document.getElementById('rosterCount');
+function updateCount(shownIn, shownOut) {
+  countNote.textContent = 'Showing ' + shownIn + ' of ' + TIER1.length + ' inbound agencies and ' + shownOut + ' of ' + TIER2.length + ' outbound networks.';
+}
+updateCount(TIER1.length, TIER2.length);
+// In-page anchors: scroll directly instead of hash navigation, which can
+// fail inside sandboxed embed frames (Google Sites).
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.getElementById(a.getAttribute('href').slice(1));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+filter.addEventListener('input', () => {
+  const q = filter.value.trim().toLowerCase();
+  let sIn = 0, sOut = 0;
+  tbody.querySelectorAll('tr').forEach(tr => {
+    if (tr.classList.contains('tier-head')) return;
+    const hit = !q || tr.textContent.toLowerCase().includes(q);
+    tr.style.display = hit ? '' : 'none';
+    if (hit) (tr.dataset.tier === 'in') ? sIn++ : sOut++;
+  });
+  updateCount(sIn, sOut);
+});
+</script>
+</body>
+</html>
