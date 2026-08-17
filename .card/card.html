@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 1200px; height: 630px;
+  background: #f9f9f7;
+  color: #0b0b0b;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column;
+  padding: 62px 70px 56px;
+  position: relative;
+  overflow: hidden;
+}
+body::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 10px;
+  background: #d03b3b;
+}
+
+.kicker {
+  font-size: 19px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #898781;
+}
+
+h1 {
+  margin-top: 40px;
+  font-size: 80px; line-height: 1.06; letter-spacing: -0.028em;
+  font-weight: 700; max-width: 13.2em;
+}
+
+.spacer { flex: 1; min-height: 38px; }
+
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px;
+  border-top: 1px solid #c3c2b7; padding-top: 26px;
+}
+.stat .value { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+.stat .label { font-size: 16.5px; color: #52514e; line-height: 1.32; margin-top: 9px; max-width: 11em; }
+.stat.zero .value { color: #d03b3b; }
+
+.foot {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-top: 30px;
+}
+.domain { font-size: 24px; font-weight: 700; letter-spacing: 0.01em; }
+.tag { font-size: 16.5px; color: #898781; }
+</style>
+</head>
+<body>
+
+<div class="kicker">Southold, New York &middot; 11971</div>
+
+<h1>59 outside agencies can search the record of your movements.</h1>
+
+<div class="spacer"></div>
+
+<div class="stats">
+  <div class="stat">
+    <div class="value">4,278</div>
+    <div class="label">cameras one search away</div>
+  </div>
+  <div class="stat">
+    <div class="value">279</div>
+    <div class="label">networks Southold's logins reach</div>
+  </div>
+  <div class="stat">
+    <div class="value">906</div>
+    <div class="label">searches in six months</div>
+  </div>
+  <div class="stat zero">
+    <div class="value">0</div>
+    <div class="label">opt-in decisions the Town made</div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="domain">11971.com</div>
+  <div class="tag">From the Town's own records, under FOIL</div>
+</div>
+
+</body>
+</html>
